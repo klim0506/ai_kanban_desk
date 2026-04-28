@@ -1,0 +1,46 @@
+{
+  "name": "kanban-board",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "set NEXT_IGNORE_INCORRECT_LOCKFILE=1 && next dev --turbo",
+    "build": "set NEXT_IGNORE_INCORRECT_LOCKFILE=1 && next build",
+    "start": "set NEXT_IGNORE_INCORRECT_LOCKFILE=1 && next start",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "bot:dev": "tsx src/bot/index.ts"
+  },
+  "dependencies": {
+    "@hello-pangea/dnd": "^16.6.0",
+    "@prisma/client": "^5.22.0",
+    "clsx": "^2.1.0",
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.4.0",
+    "frappe-gantt": "^0.6.1",
+    "grammy": "^1.30.0",
+    "next": "^14.2.35",
+    "openai": "^6.34.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "tailwind-merge": "^2.5.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.35",
+    "postcss": "^8.4.0",
+    "prisma": "^5.22.0",
+    "sass": "^1.99.0",
+    "tailwindcss": "^3.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "optionalDependencies": {
+    "@next/swc-win32-x64-msvc": "14.2.35"
+  }
+}

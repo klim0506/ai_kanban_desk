@@ -1,0 +1,39 @@
+services:
+
+  web:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file: .env.local
+    environment:
+      DATABASE_URL: "file:/data/kanban.db"
+    volumes:
+      - sqlite:/data
+    command: >
+      sh -c "
+        node_modules/.bin/prisma migrate deploy &&
+        node_modules/.bin/next start
+      "
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/users"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env.local
+    environment:
+      DATABASE_URL: "file:/data/kanban.db"
+    volumes:
+      - sqlite:/data
+    command: node_modules/.bin/tsx src/bot/index.ts
+    depends_on:
+      web:
+        condition: service_healthy
+
+volumes:
+  sqlite:

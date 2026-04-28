@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* frappe-gantt overrides — спокойная палитра Neuron */
+.gantt .bar-label {
+  font-size: 11px;
+  font-weight: 500;
+  fill: #334155;
+}
+.gantt .bar {
+  fill: #c5dff3;
+  stroke: #8ebdd9;
+  stroke-width: 1;
+}
+.gantt .bar-progress {
+  fill: #7eb3d8;
+}
+.gantt .arrow {
+  stroke: #94a3b8;
+  stroke-width: 1.5;
+  fill: none;
+}
+.gantt .grid-header {
+  fill: #f8fafc;
+  stroke: #e2e8f0;
+}
+.gantt .lower-text,
+.gantt .upper-text {
+  fill: #475569;
+  font-size: 11px;
+}
+.gantt .grid-row {
+  fill: #fafbfc !important;
+}
+.gantt .grid-row:nth-child(even) {
+  fill: #fafbfc !important;
+}
+.gantt .row-line {
+  stroke: #eef2f6 !important;
+}
+.gantt .today-highlight {
+  fill: #fff7d6;
+  opacity: 0.45;
+}
+.gantt-container {
+  overflow-x: auto;
+}
+.gantt .bar-wrapper.ai-task .bar-label {
+  fill: #9a3412;
+  font-weight: 600;
+}
+
+/* Scrollable kanban */
+.kanban-scroll {
+  overflow-x: auto;
+  min-height: 0;
+}
+
+@keyframes pageFadeEnter {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-fade-enter {
+  animation: pageFadeEnter 220ms ease-out;
+}
+
+/* Subtle scrollbars (vertical/horizontal) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cfd8e3 #f7f9fc;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f7f9fc;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #cfd8e3;
+  border-radius: 999px;
+  border: 2px solid #f7f9fc;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #bcc8d6;
+}
+
+:root {
+  --color-ai-badge: #f97316;
+  --color-accent-muted: #5f88a3;
+  --color-accent-muted-hover: #537b95;
+  --color-accent-muted-soft: #eef3f7;
+}
+
+/* Global desaturation for the main accent palette */
+[class*="bg-[#3A97D9]"] {
+  background-color: var(--color-accent-muted) !important;
+}
+[class*="hover:bg-[#2d87c4]"]:hover {
+  background-color: var(--color-accent-muted-hover) !important;
+}
+[class*="text-[#3A97D9]"] {
+  color: var(--color-accent-muted) !important;
+}
+[class*="border-[#3A97D9]"] {
+  border-color: var(--color-accent-muted) !important;
+}
+[class*="focus:ring-[#3A97D9]/30"]:focus,
+[class*="focus:ring-[#3A97D9]/40"]:focus {
+  --tw-ring-color: color-mix(in srgb, var(--color-accent-muted) 30%, transparent) !important;
+}
+
+/* Slightly softer status highlights */
+.bg-amber-50,
+.bg-amber-50\/30,
+.bg-amber-50\/50,
+.bg-amber-50\/60 {
+  background-color: #fffbf3 !important;
+}
+.bg-emerald-50,
+.bg-emerald-50\/30,
+.bg-emerald-50\/40,
+.bg-emerald-50\/70 {
+  background-color: #f5faf7 !important;
+}
+.bg-sky-50,
+.bg-sky-50\/50,
+.bg-sky-50\/80 {
+  background-color: #f4f8fb !important;
+}
+
+@layer components {
+  .ui-input {
+    @apply w-full border border-slate-200 rounded-lg px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#3A97D9]/40;
+  }
+
+  .ui-btn-primary {
+    @apply px-4 py-1.5 text-sm bg-[#3A97D9] text-white rounded-lg hover:bg-[#2d87c4] disabled:opacity-50;
+  }
+
+  .ui-btn-secondary {
+    @apply px-4 py-1.5 text-sm border border-slate-200 rounded-lg hover:bg-slate-50;
+  }
+}

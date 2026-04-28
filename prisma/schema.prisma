@@ -1,0 +1,81 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int           @id @default(autoincrement())
+  name       String
+  login      String        @unique
+  password   String
+  role       String        @default("user") // "admin" | "user"
+  color      String        @default("#93c5fd") // hex
+  telegramId String?       @unique
+  tasks      Task[]
+  history    TaskHistory[]
+  tokens     AuthToken[]
+  todos      TodoItem[]
+  createdAt  DateTime      @default(now())
+}
+
+model Task {
+  id            Int           @id @default(autoincrement())
+  title         String
+  description   String?
+  column        String        @default("SPRINT_BACKLOG")
+  order         Int           @default(0)
+  startDate     DateTime?
+  endDate       DateTime?
+  isAiGenerated Boolean       @default(false)
+  isValidated   Boolean       @default(false)
+  dependencies  String? // JSON string: [{id, type: "after"|"same"}]
+  priority      Int           @default(2) // 1=critical bug, 2=important, 3=nice-to-have
+  difficulty    Int           @default(2) // 1=fast, 2=hours, 3=days, 4=research
+  neuronBlock   String        @default("CHAT") // Neuron area id (see lib/neuronBlocks.ts)
+  artifacts     String? // JSON: [{ name, mimeType, dataUrl }]
+  assigneeId    Int?
+  assignee      User?         @relation(fields: [assigneeId], references: [id])
+  history       TaskHistory[]
+  todos         TodoItem[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model TaskHistory {
+  id           Int      @id @default(autoincrement())
+  taskId       Int
+  task         Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  actorId      Int?
+  actor        User?    @relation(fields: [actorId], references: [id])
+  kind         String // "column" | "assignee" | "created"
+  fromValue    String?
+  toValue      String?
+  createdAt    DateTime @default(now())
+}
+
+model TodoItem {
+  id          Int      @id @default(autoincrement())
+  title       String
+  isCompleted Boolean  @default(false)
+  order       Int      @default(0)
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskId      Int?
+  task        Task?    @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AuthToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  deviceId  String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
